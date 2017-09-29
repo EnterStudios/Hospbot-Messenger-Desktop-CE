@@ -1,0 +1,26 @@
+{
+  "name": "hospbot-messenger-desktop-ce",
+  "version": "1.0.0",
+  "description": "A Hospbot Messenger client for the desktop - Community Edition",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/ehosp/Hospbot-Messenger-Desktop-CE.git",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "Alex Karadimos",
+  "license": "",
+  "devDependencies": {
+    "electron": "~1.7.8"
+  },
+  "dependencies": {
+    "botui": "^0.3.4",
+    "vue": "^2.4.4"
+  }
+}
