@@ -2,7 +2,7 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-var botui = new BotUI('my-botui-app');
+var botui = new BotUI('hosbpot-ui');
 
 function init() {
     botui.message
@@ -22,7 +22,7 @@ function init() {
           }]
         })
     }).then(function (res) {
-      if(res.value == 'change') {
+      if(res.value == 'check') {
         botui.message.bot({
             delay: 1200,
             content: "Check eHOSP"
