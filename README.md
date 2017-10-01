@@ -8,5 +8,5 @@ Preview
 =======
 
 <p align="center"> 
-  <img src="preview.png" align="center" height="300px" width="auto"/> 
+  <img src="preview.png" align="center"/> 
 </p>
