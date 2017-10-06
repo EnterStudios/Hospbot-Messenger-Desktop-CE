@@ -31,3 +31,9 @@ img#logo {
 .botui-container {
     background-color: transparent;
 }
+
+.botui-actions-text-input {
+    width: 100%;
+    border-bottom-color: #fff;
+    color: #fff;
+}
