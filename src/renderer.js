@@ -5,50 +5,23 @@
 var botui = new BotUI('hosbpot-ui');
 var request = require("request");
 
-function init() {
-    botui.message
-        .bot({
-            delay: 700,
-            content: 'What would you like to do?'
-        })
-        .then(function () {
-            return botui.action.button({
-                delay: 1000,
-                action: [
-                    {
-                        text: 'Talk to Hospbot',
-                        value: 'talk'
-                    }, 
-                    {
-                        text: 'Check eHOSP',
-                        value: 'check'
-                    }
-                ]
-            })
-        })
-        .then(function (res) {
-            if(res.value == 'check') {
-                botui.message.bot({
-                    delay: 1200,
-                    content: "Check eHOSP"
-                }).then(init);
-            } else {
-                botui.action.text({ // show 'text' action
-                    action: {
-                        placeholder: 'Your message ...'
-                    }
-                })
-                .then(function (res) {
-                    msgFromHospbot = botui.message.bot({
-                        delay: 200,
-                        loading: true
-                    }).then(function (index) {
-                        msgFromHospbot = index;
-                        sendMessage(res.value);
-                    });
-                })
-            }
+var firstLoop = true;
+
+function loop() {
+    botui.action.text({ // show 'text' action
+        action: {
+            placeholder: 'Your message ...'
+        }
+    })
+    .then(function (res) {
+        msgFromHospbot = botui.message.bot({
+            delay: 200,
+            loading: true
+        }).then(function (index) {
+            msgFromHospbot = index;
+            sendMessage(res.value);
         });
+    });
 }
 
 function sendMessage(msg) {
@@ -63,7 +36,6 @@ function sendMessage(msg) {
             message: msg
         }
     };
-    
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
         console.log(body);
@@ -71,8 +43,55 @@ function sendMessage(msg) {
         botui.message.update(msgFromHospbot, {
             content: body
         })
-        .then(init);
+        .then(loop);
     });
 }
 
-init();
+
+if (firstLoop) {
+    botui.message.bot({
+        delay: 700,
+        content: 'What would you like to do?'
+    })
+    .then(function () {
+        return botui.action.button({
+            delay: 1000,
+            action: [
+                {
+                    text: 'Talk to Hospbot',
+                    value: 'talk'
+                }, 
+                {
+                    text: 'Check eHOSP',
+                    value: 'check'
+                }
+            ]
+        })
+    })
+    .then(function (res) {
+        if(res.value == 'check') {
+            botui.message.bot({
+                delay: 1200,
+                content: "Check eHOSP"
+            }).then(loop);
+        } else {
+            botui.action.text({ // show 'text' action
+                action: {
+                    placeholder: 'Your message ...'
+                }
+            })
+            .then(function (res) {
+                msgFromHospbot = botui.message.bot({
+                    delay: 200,
+                    loading: true
+                }).then(function (index) {
+                    msgFromHospbot = index;
+                    sendMessage(res.value);
+                });
+            })
+        }
+    });
+    firstLoop = false;
+} else {
+    loop();
+}
